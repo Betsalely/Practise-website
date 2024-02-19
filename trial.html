@@ -1,0 +1,635 @@
+ <!DOCTYPE html>
+<html>
+<head>
+    <title>Sudoku Game</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 50px); /* Creates 9 columns */
+    /* grid-template-gap: 1px; Space between cells */
+    border: 2px solid #000; /* Border around the board */
+}
+.seperate{
+    position: absolute;
+    width: 2px;
+    background: red;
+    height: 490px;
+}
+.incorrect-cell {
+    background-color: red !important;
+
+}
+
+.sudoku-row {
+    display: contents; 
+    border: 2px solid red;
+    
+    /* This helps in lining up the cells correctly */
+}
+.s1{
+    margin-right: 150px;
+}
+.s2{
+    margin-left: 150px;
+}
+.s3{
+    width: 465px;
+    height: 2px;
+    margin-top: 150px;
+}
+.s4{
+    width: 465px;
+    height: 2px;
+    margin-top: -150px;
+}
+
+
+.sudoku-cell, div button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #000;
+    border: 1px solid #ddd;
+    font-size: 20px;
+    color:white;
+    text-align: center;
+}
+
+#resetButton{
+    top:0;
+    right:50%;
+    position: absolute;
+}
+#hintButton{
+    top:0;
+    left:50%;
+    position: absolute;
+}
+.numbers{
+    position:absolute;
+    margin-top:42%;
+    padding: 20px;
+    scale: 1;
+    width: 50vw;
+    border: 2px solid black;
+    border-radius: 20px;
+    display:none;
+    text-align: center;
+}
+.numbers button{
+    background-color: #DDD;
+    color:black;
+    display: inline;
+    border: 0.5px solid black;
+    scale: 0.9;
+    margin: 0 3px 0 3px;
+    border-radius: 5px;
+}
+
+    </style>
+
+
+</head>
+<body>
+     <div class="sudoku-board">
+
+        <div class="sudoku-row">
+            <div class="sudoku-cell" id="S1TL">6</div>
+            <div class="sudoku-cell" id="S1TM">4</div>
+            <div class="sudoku-cell" id="S1TR">5</div>
+            <div class="sudoku-cell" id="S2TL">7</div>
+            <div class="sudoku-cell" id="S2TM">1</div>
+            <div class="sudoku-cell" id="S2TR">3</div>
+            <div class="sudoku-cell" id="S3TL">2</div>
+            <div class="sudoku-cell" id="S3TM">8</div>
+            <div class="sudoku-cell" id="S3TR">9</div>
+
+        </div>
+        <div class="sudoku-row">
+     
+            <div class="sudoku-cell" id="S1ML">3</div>
+            <div class="sudoku-cell" id="S1MM">9</div>
+            <div class="sudoku-cell" id="S1MR">7</div>
+            <div class="sudoku-cell" id="S2ML">5</div>
+            <div class="sudoku-cell" id="S2MM">8</div>
+            <div class="sudoku-cell" id="S2MR">2</div>
+            <div class="sudoku-cell" id="S3ML">4</div>
+            <div class="sudoku-cell" id="S3MM">1</div>
+            <div class="sudoku-cell" id="S3MR">5</div>
+      
+        </div>
+        <div class="sudoku-row">
+ 
+            <div class="sudoku-cell" id="S1BL">2</div>
+            <div class="sudoku-cell" id="S1BM">8</div>
+            <div class="sudoku-cell" id="S1BR">1</div>
+            <div class="sudoku-cell" id="S2BL">9</div>
+            <div class="sudoku-cell" id="S2BM">4</div>
+            <div class="sudoku-cell" id="S2BR">6</div>
+            <div class="sudoku-cell" id="S3BL">5</div>
+            <div class="sudoku-cell" id="S3BM">7</div>
+            <div class="sudoku-cell" id="S3BR">3</div>
+    
+        </div>
+        <div class="sudoku-row">
+
+            <div class="sudoku-cell" id="S4TL">8</div>
+            <div class="sudoku-cell" id="S4TM">3</div>
+            <div class="sudoku-cell" id="S4TR">2</div>
+            <div class="sudoku-cell" id="S5TL">4</div>
+            <div class="sudoku-cell" id="S5TM">9</div>
+            <div class="sudoku-cell" id="S5TR">1</div>
+            <div class="sudoku-cell" id="S6TL">5</div>
+            <div class="sudoku-cell" id="S6TM">6</div>
+            <div class="sudoku-cell" id="S6TR">7</div>
+            
+        </div>
+        <div class="sudoku-row">
+ 
+            <div class="sudoku-cell" id="S4ML">4</div>
+            <div class="sudoku-cell" id="S4MM">7</div>
+            <div class="sudoku-cell" id="S4MR">6</div>
+            <div class="sudoku-cell" id="S5ML">8</div>
+            <div class="sudoku-cell" id="S5MM">2</div>
+            <div class="sudoku-cell" id="S5MR">5</div>
+            <div class="sudoku-cell" id="S6ML">9</div>
+            <div class="sudoku-cell" id="S6MM">1</div>
+            <div class="sudoku-cell" id="S6MR">3</div>
+      
+        </div>
+        <div class="sudoku-row">
+         
+            <div class="sudoku-cell" id="S4BL">1</div>
+            <div class="sudoku-cell" id="S4BM">9</div>
+            <div class="sudoku-cell" id="S4BR">5</div>
+            <div class="sudoku-cell" id="S5BL">3</div>
+            <div class="sudoku-cell" id="S5BM">6</div>
+            <div class="sudoku-cell" id="S5BR">7</div>
+            <div class="sudoku-cell" id="S6BL">8</div>
+            <div class="sudoku-cell" id="S6BM">2</div>
+            <div class="sudoku-cell" id="S6BR">4</div>
+       
+        </div>
+        <div class="sudoku-row">
+
+            <div class="sudoku-cell" id="S7TL">1</div>
+            <div class="sudoku-cell" id="S7TM">5</div>
+            <div class="sudoku-cell" id="S7TR">8</div>
+            <div class="sudoku-cell" id="S8TL">9</div>
+            <div class="sudoku-cell" id="S8TM">7</div>
+            <div class="sudoku-cell" id="S8TR">6</div>
+            <div class="sudoku-cell" id="S9TL">3</div>
+            <div class="sudoku-cell" id="S9TM">2</div>
+            <div class="sudoku-cell" id="S9TR">4</div>
+            
+          
+        </div>
+        <div class="sudoku-row">
+   
+            <div class="sudoku-cell" id="S7ML">2</div>
+            <div class="sudoku-cell" id="S7MM">6</div>
+            <div class="sudoku-cell" id="S7MR">4</div>
+            <div class="sudoku-cell" id="S8ML">1</div>
+            <div class="sudoku-cell" id="S8MM">3</div>
+            <div class="sudoku-cell" id="S8MR">8</div>
+            <div class="sudoku-cell" id="S9ML">7</div>
+            <div class="sudoku-cell" id="S9MM">5</div>
+            <div class="sudoku-cell" id="S9MR">9</div>
+         
+        </div>
+        <div class="sudoku-row">
+          
+            <div class="sudoku-cell" id="S7BL">7</div>
+            <div class="sudoku-cell" id="S7BM">3</div>
+            <div class="sudoku-cell" id="S7BR">9</div>
+            <div class="sudoku-cell" id="S8BL">4</div>
+            <div class="sudoku-cell" id="S8BM">5</div>
+            <div class="sudoku-cell" id="S8BR">2</div>
+            <div class="sudoku-cell" id="S9BL">6</div>
+            <div class="sudoku-cell" id="S9BM">1</div>
+            <div class="sudoku-cell" id="S9BR">8</div>
+            
+        </div>
+ 
+    </div>
+    <div class="seperate s1"></div>
+    <div class="seperate s2"></div>
+    <div class="seperate s3"></div>
+    <div class="seperate s4"></div>
+    <button id="hintButton">Give Hint</button>
+        <button id="resetButton">Reset</button>
+    
+    <div class="numbers">
+        <button data-number="1" class="b1">1</button>
+        <button data-number="2" class="b2">2</button>
+        <button data-number="3" class="b3">3</button>
+        <button data-number="4" class="b4">4</button>
+        <button data-number="5" class="b5">5</button>
+        <button data-number="6" class="b6">6</button>
+        <button data-number="7" class="b7">7</button>
+        <button data-number="8" class="b8">8</button>
+        <button data-number="9" class="b9">9</button>
+    </div>
+
+
+    <script>
+
+
+let selectedCellId = null;
+
+
+document.querySelectorAll('.numbers button').forEach(button => {
+    button.addEventListener('click', function() {
+        if (selectedCellId) {
+            const selectedCell = document.getElementById(selectedCellId);
+            selectedCell.textContent = this.textContent; // Update the cell text
+            validateInput({ target: selectedCell }, selectedCellId.split('-')[1], selectedCellId.split('-')[2]);
+            // const numbersDiv = document.querySelector('.numbers');
+            // numbersDiv.style.display = 'none'; // Hide the numbers div
+
+            // If the cell was wrong and is now corrected, reset the background color
+            if (selectedCell.style.backgroundColor === "red") {
+                if (sudoku.checkIfSafe(selectedCellId.split('-')[1], selectedCellId.split('-')[2], parseInt(this.textContent))) {
+                    selectedCell.style.backgroundColor = "";
+                }
+            }
+        }
+    });
+});
+
+document.body.addEventListener('click', function(event) {
+    // Get your specific divs
+    const sudokuBoard = document.querySelector('.sudoku-board'); // Replace with your div's class or ID
+    const numbersDiv = document.querySelector('.numbers'); // Replace with your div's class or ID
+
+    // Check if the click is outside of both sudokuBoard and numbersDiv
+    if (!sudokuBoard.contains(event.target) && !numbersDiv.contains(event.target)) {
+        // Code to execute when clicked outside of both divs
+        console.log('Clicked outside of sudokuBoard and numbersDiv');
+        resetCellStyles();
+        document.querySelector(".numbers").style.display = "none"; // Make sure to use 'style.display' instead of '.display'
+    }
+});
+
+
+document.addEventListener('keydown', function(event) {
+    const numbersDiv = document.querySelector('.numbers');
+    // Check if the numbers div is visible
+    if (numbersDiv.style.display === 'block') {
+        // Get the pressed key
+        const key = event.key;
+
+        // Check if the key is a number between 1 and 9
+        if (key >= '1' && key <= '9') {
+            // Find the corresponding button and click it
+            const button = document.querySelector(`.numbers button[data-number='${key}']`);
+            if (button) {
+                button.click();
+            }
+            console.log(`${key} pressed on ${selectedCellId}`)
+        }
+    }
+});
+
+
+
+    
+        // JS program to implement the approach
+class Sudoku {
+
+    // Constructor
+    constructor(N, K) {
+        this.N = N;
+        this.K = K;
+
+        // Compute square root of N
+        const SRNd = Math.sqrt(N);
+        this.SRN = Math.floor(SRNd);
+
+        // Initialize all entries as false to indicate
+        // that there are no edges initially
+        this.mat = Array.from({
+            length: N
+        }, () => Array.from({
+            length: N
+        }, () => 0));
+    }
+
+
+
+
+    // Sudoku Generator
+    fillValues() {
+    // Fill the diagonal of SRN x SRN matrices
+    this.fillDiagonal();
+
+    // Fill remaining blocks
+    this.fillRemaining(0, this.SRN);
+
+    // Log the complete solution
+    this.logSolution();
+
+    // Remove Randomly K digits to make game
+    this.removeKDigits();
+}
+
+    // Fill the diagonal SRN number of SRN x SRN matrices
+    fillDiagonal() {
+        for (let i = 0; i < this.N; i += this.SRN) {
+            // for diagonal box, start coordinates->i==j
+            this.fillBox(i, i);
+        }
+    }
+
+    // Returns false if given 3 x 3 block contains num.
+    unUsedInBox(rowStart, colStart, num) {
+        for (let i = 0; i < this.SRN; i++) {
+            for (let j = 0; j < this.SRN; j++) {
+                if (this.mat[rowStart + i][colStart + j] === num) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    // Fill a 3 x 3 matrix.
+    fillBox(row, col) {
+        let num = 0;
+        for (let i = 0; i < this.SRN; i++) {
+            for (let j = 0; j < this.SRN; j++) {
+                while (true) {
+                    num = this.randomGenerator(this.N);
+                    if (this.unUsedInBox(row, col, num)) {
+                        break;
+                    }
+                }
+                this.mat[row + i][col + j] = num;
+            }
+        }
+    }
+
+    // Random generator
+    randomGenerator(num) {
+        return Math.floor(Math.random() * num + 1);
+    }
+
+    // Check if safe to put in cell
+    checkIfSafe(i, j, num) {
+        return (
+            this.unUsedInRow(i, num) &&
+            this.unUsedInCol(j, num) &&
+            this.unUsedInBox(i - (i % this.SRN), j - (j % this.SRN), num)
+        );
+    }
+
+    // check in the row for existence
+    unUsedInRow(i, num) {
+        for (let j = 0; j < this.N; j++) {
+            if (this.mat[i][j] === num) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // check in the row for existence
+    unUsedInCol(j, num) {
+        for (let i = 0; i < this.N; i++) {
+            if (this.mat[i][j] === num) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // A recursive function to fill remaining
+    // matrix
+    fillRemaining(i, j) {
+        // Check if we have reached the end of the matrix
+        if (i === this.N - 1 && j === this.N) {
+            return true;
+        }
+
+        // Move to the next row if we have reached the end of the current row
+        if (j === this.N) {
+            i += 1;
+            j = 0;
+        }
+
+
+        // Skip cells that are already filled
+        if (this.mat[i][j] !== 0) {
+            return this.fillRemaining(i, j + 1);
+        }
+
+        // Try filling the current cell with a valid value
+        for (let num = 1; num <= this.N; num++) {
+            if (this.checkIfSafe(i, j, num)) {
+                this.mat[i][j] = num;
+                if (this.fillRemaining(i, j + 1)) {
+                    return true;
+                }
+                this.mat[i][j] = 0;
+            }
+        }
+
+        // No valid value was found, so backtrack
+        return false;
+    }
+    logSolution() {
+        console.log('Complete Sudoku Solution:');
+        this.mat.forEach(row => {
+            console.log(row.join(' '));
+        });
+    }
+
+    // Print sudoku
+    printSudoku() {
+        for (let i = 0; i < this.N; i++) {
+                console.log(this.mat[i].join(" "))
+        }
+    }
+    
+
+    // Remove the K no. of digits to
+    // complete game
+    removeKDigits() {
+        let count = this.K;
+
+        while (count !== 0) {
+            // extract coordinates i and j
+            let i = Math.floor(Math.random() * this.N);
+            let j = Math.floor(Math.random() * this.N);
+            if (this.mat[i][j] !== 0) {
+                count--;
+                this.mat[i][j] = 0;
+            }
+        }
+
+        return;
+    }
+}
+
+
+// Driver code
+let N = 9
+let K = 45
+let sudokuq = new Sudoku(N, K)
+
+
+// sudokuq.printSudoku()
+
+// This code is contributed by phasing17.
+
+
+        let sudoku = new Sudoku(N, K);
+        sudoku.fillValues();
+
+        displaySudoku(sudoku.mat);
+
+
+
+
+        function displaySudoku(matrix) {
+    const board = document.querySelector('.sudoku-board');
+    const numbersDiv = document.querySelector('.numbers');
+    board.innerHTML = '';
+
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            const cellButton = document.createElement('button');
+            cellButton.className = 'sudoku-cell-button';
+            cellButton.id = `cell-${i}-${j}`;
+            cellButton.textContent = matrix[i][j] !== 0 ? matrix[i][j] : '';
+            if (matrix[i][j] !== 0) {
+                cellButton.disabled = true;
+            }
+
+            
+            cellButton.addEventListener('click', () => {
+    highlightRowAndColumn(cellButton.id);
+    numbersDiv.style.display = 'block';
+    selectedCellId = cellButton.id; // Set the currently selected cell ID
+});
+
+            board.appendChild(cellButton);
+        }
+    }
+}
+
+function resetCellStyles() {
+    const cells = document.querySelectorAll('.sudoku-cell-button');
+    cells.forEach(cell => {
+        if (!cell.classList.contains('incorrect-cell')) {
+            cell.style.backgroundColor = "";
+            cell.style.color = "white";
+            cell.style.border = "";
+        }
+    });
+    const nummies = document.querySelector(".numbers")
+    nummies.style.display="none"
+}
+
+
+function highlightRowAndColumn(id) {
+    resetCellStyles();
+    const [row, col] = id.split('-').slice(1); // Extract row and column from ID
+
+    const cells = document.querySelectorAll('.sudoku-cell-button');
+    cells.forEach(cell => {
+        const [cellRow, cellCol] = cell.id.split('-').slice(1);
+        if (cellRow === row || cellCol === col) {
+            cell.style.backgroundColor = "rgba(255, 165, 0, 0.5)"; 
+            cell.style.color = "black";        }
+    });
+
+    const clickedCell = document.getElementById(id);
+    clickedCell.style.backgroundColor = "orange"; // Solid orange for clicked cell
+    clickedCell.style.border = "2px solid black";
+}
+
+
+
+
+
+
+
+
+function giveHint() {
+    for (let i = 0; i < sudoku.N; i++) {
+        for (let j = 0; j < sudoku.N; j++) {
+            if (sudoku.mat[i][j] === 0) {
+                for (let num = 1; num <= sudoku.N; num++) {
+                    if (sudoku.checkIfSafe(i, j, num)) {
+                        sudoku.mat[i][j] = num;
+                        updateCell(i, j, num);
+                        return;
+                    }
+                }
+            }
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.getElementById('hintButton').addEventListener('click', giveHint);
+});
+
+
+
+function updateCell(row, col, num) {
+    const cell = document.getElementById(`cell-${row}-${col}`);
+    if (cell) {
+        cell.value = num;
+        cell.disabled = true; // Optional: disable the cell to prevent changing the hint
+    }
+}
+
+        function validateInput(e, row, col) {
+    const value = parseInt(e.target.textContent);
+    if (!value || value < 1 || value > 9 || isNaN(value)) {
+        e.target.textContent = '';
+        return;
+    }
+
+    const cell = document.getElementById(selectedCellId);
+
+    if (!sudoku.checkIfSafe(row, col, value)) {
+        cell.classList.add('incorrect-cell'); // Mark the cell as incorrect
+        return;
+    } else {
+        cell.classList.remove('incorrect-cell'); // Remove the incorrect marking
+    }
+
+    sudoku.mat[row][col] = value;
+}
+
+
+
+        document.getElementById('resetButton').addEventListener('click', () => {
+            sudoku = new Sudoku(9, 40);
+            sudoku.fillValues();
+            displaySudoku(sudoku.mat);
+        });
+
+        // Hint functionality is not implemented in this basic version
+         document.getElementById('hintButton').addEventListener('click', giveHint);
+    </script>
+</body>
+</html>
+
