@@ -1,0 +1,1 @@
+Sudoku X is a variant of regular sudoku. It genrates a sudoku grid but also genreates a solution with thebthe digonals also being numbered 1-9. You can use your number keys when a cell is clicked. Sudoku.html is simply a sudoku genrating grid
